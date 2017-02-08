@@ -14,18 +14,33 @@ device = MatrixOrbital.MatrixOrbitalDisplay(port='/dev/ttyUSB0', baudrate=19200,
 device.ClearScreen()
 device.BacklightEnable(True)
 
+l = [
+  '0b10001',
+  '0b11111',
+  '0b10001',
+  '0b10001',
+  '0b01010',
+  '0b00100',
+  '0b01010',
+  '0b10001'
+]
+
+device.DefineChar('\x00', "".join("%c" % int(x,0) for x in l))
+
 ui = ui.LcdUi(device)
 
 f = ui.FrameFactory(frame.Frame)
 
 line1 = f.BuildWidget(widget.LineWidget, row=0, col=0)
-line1.set_contents("Hello, world!")
+line1.set_contents("Hello, world! \x00")
 
 line2 = f.BuildWidget(widget.LineWidget, row=1, col=10, span=6)
 line2.set_contents("cutoffXXX")
 
 ui.PushFrame(f)
 ui.Repaint()
+
+time.sleep(5)
 
 f = ui.FrameFactory(frame.MenuFrame)
 

@@ -60,3 +60,7 @@ class MatrixOrbitalDisplay(Generic.SerialCharacterDisplay):
 
   def GetSymbol(self, key, alt=None):
     return MTX_ORB_SYMBOLS.get(key, alt)
+
+  def DefineChar(self, char, definition):
+    command = ('\x4E%c' % char) + definition
+    self._WriteCommand(command)
