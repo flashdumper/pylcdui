@@ -15,8 +15,10 @@ MTX_ORB_SYMBOLS = {
 }
 
 class MatrixOrbitalDisplay(Generic.SerialCharacterDisplay):
-  ROWS = 4
-  COLS = 20
+  def __init__(self, port, baudrate=115200, rows=4, cols=20):
+    self._rows = rows
+    self._cols = cols
+    super(MatrixOrbitalDisplay, self).__init__(port, baudrate)
 
   def _WriteCommand(self, command):
     self._serial_handle.write('\xfe' + command)
@@ -24,10 +26,10 @@ class MatrixOrbitalDisplay(Generic.SerialCharacterDisplay):
   ### IGenericDisplay interface
 
   def rows(self):
-    return self.ROWS
+    return self._rows
 
   def cols(self):
-    return self.COLS
+    return self._cols
 
   def ClearScreen(self):
     self._WriteCommand('\x58')

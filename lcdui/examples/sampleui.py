@@ -1,11 +1,15 @@
-from lcdui.devices import Generic, CrystalFontz
+import sys
+sys.path.append('..')
+
+from lcdui.devices import Generic, CrystalFontz, MatrixOrbital
 from lcdui.ui import frame
 from lcdui.ui import ui
 from lcdui.ui import widget
 import time
 
-#device = Generic.MockCharacterDisplay(rows=4, cols=40)
-device = CrystalFontz.CFA635Display(port='/dev/ttyUSB0')
+# device = Generic.MockCharacterDisplay(rows=2, cols=20)
+# device = CrystalFontz.CFA635Display(port='/dev/ttyUSB0')
+device = MatrixOrbital.MatrixOrbitalDisplay(port='/dev/ttyUSB0', baudrate=19200, rows=2, cols = 16)
 
 device.ClearScreen()
 device.BacklightEnable(True)
@@ -17,7 +21,7 @@ f = ui.FrameFactory(frame.Frame)
 line1 = f.BuildWidget(widget.LineWidget, row=0, col=0)
 line1.set_contents("Hello, world!")
 
-line2 = f.BuildWidget(widget.LineWidget, row=3, col=10, span=6)
+line2 = f.BuildWidget(widget.LineWidget, row=1, col=10, span=6)
 line2.set_contents("cutoffXXX")
 
 ui.PushFrame(f)
